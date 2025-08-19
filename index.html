@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🧩 Tebak Gambar - Seru & Bikin Mikir!</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="logo">🧩 Tebak Gambar</div>
+      <p>Uji logika dan imajinasimu! 💡</p>
+    </header>
+
+    <!-- Game Area -->
+    <main id="game-area">
+      <div class="progress">Level <span id="current">1</span>/5</div>
+
+      <div class="puzzle-box">
+        <img src="https://via.placeholder.com/200?text=Loading..." 
+             id="image" 
+             alt="Tebak gambar" 
+             class="puzzle-image" />
+        <div class="clue" id="clue">Petunjuk akan muncul di sini...</div>
+      </div>
+
+      <div class="input-area">
+        <input type="text" id="answer-input" placeholder="Tulis jawabanmu..." />
+        <button id="check-btn">👉 Cek</button>
+      </div>
+
+      <div class="notification" id="notification"></div>
+    </main>
+
+    <!-- End Screen -->
+    <div id="end-screen" style="display: none;">
+      <div class="trophy">
+        <div class="emoji">🏆</div>
+        <h2>Kamu Hebat!</h2>
+        <p>Skor: <strong id="score">0</strong>/5</p>
+        <p id="feedback"></p>
+        <button id="restart-btn">🔁 Main Lagi</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audio (opsional) - URL tanpa spasi -->
+  <audio id="sound-correct" src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" preload="auto"></audio>
+  <audio id="sound-wrong" src="https://www.soundjay.com/buttons/sounds/button-14.mp3" preload="auto"></audio>
+
+  <script src="script.js"></script>
+</body>
+</html>

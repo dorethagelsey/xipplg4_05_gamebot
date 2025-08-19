@@ -1,0 +1,239 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+  color: #2e7d32;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Header */
+header {
+  text-align: center;
+  margin-bottom: 30px;
+  animation: fadeIn 0.8s ease;
+}
+
+.logo {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(to right, #4caf50, #8bc34a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* Tidak ada teks tambahan! */
+}
+
+header p {
+  color: #558b2f;
+  margin-top: 8px;
+  font-size: 1.1rem;
+}
+
+/* Progress */
+.progress {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #33691e;
+  margin-bottom: 20px;
+  animation: slideIn 0.6s ease;
+}
+
+/* Puzzle Box */
+.puzzle-box {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-bottom: 25px;
+  animation: float 3s ease-in-out infinite alternate;
+}
+
+.puzzle-image {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 6px solid #a5d6a7;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.puzzle-image:hover {
+  transform: scale(1.05);
+}
+
+.clue {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  color: #1b5e20;
+  font-weight: 600;
+  font-style: italic;
+}
+
+/* Input Area */
+.input-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  animation: fadeInUp 0.6s ease;
+}
+
+#answer-input {
+  width: 80%;
+  max-width: 320px;
+  padding: 14px;
+  border: 3px solid #8bc34a;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  text-align: center;
+  outline: none;
+  background: #f1f8e9;
+  transition: all 0.3s ease;
+}
+
+#answer-input:focus {
+  border-color: #689f38;
+  background: white;
+  box-shadow: 0 0 15px rgba(139, 195, 74, 0.3);
+}
+
+#check-btn {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 14px 36px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(76, 175, 80, 0.4);
+}
+
+#check-btn:hover {
+  background: #388e3c;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(76, 175, 80, 0.5);
+}
+
+#check-btn:active {
+  transform: translateY(0);
+}
+
+/* Notification */
+.notification {
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+  transition: all 0.5s ease;
+  margin-top: 15px;
+  font-size: 1.1rem;
+}
+
+.notification.show {
+  opacity: 1;
+  height: auto;
+  padding: 14px;
+}
+
+.notification.success {
+  background: #66bb6a;
+  color: white;
+}
+
+.notification.error {
+  background: #ef5350;
+  color: white;
+}
+
+/* End Screen */
+#end-screen {
+  text-align: center;
+  padding: 40px 20px;
+  animation: fadeIn 1s ease;
+}
+
+.trophy {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.trophy .emoji {
+  font-size: 5rem;
+  margin-bottom: 10px;
+}
+
+#feedback {
+  margin: 20px 0;
+  font-size: 1.2rem;
+  color: #2e7d32;
+  line-height: 1.5;
+}
+
+#restart-btn {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 14px 36px;
+  font-size: 1.1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  font-weight: 600;
+}
+
+#restart-btn:hover {
+  background: #388e3c;
+  transform: scale(1.05);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-10px); }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .puzzle-image { width: 160px; height: 160px; }
+  #answer-input { width: 90%; }
+  .logo { font-size: 2rem; }
+  .clue { font-size: 1.1rem; }
+}
