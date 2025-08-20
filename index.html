@@ -15,9 +15,30 @@
       <p>Uji logika dan imajinasimu! 💡</p>
     </header>
 
+    <!-- Welcome Screen -->
+    <div id="welcome-screen">
+      <div class="welcome-emoji">🎯</div>
+      <h2>Selamat Datang, Detektif!</h2>
+      <p style="margin: 20px 0; color: #558b2f;">Masukkan nama kamu untuk mulai bermain dan masuk leaderboard!</p>
+      
+      <div class="name-input-area">
+        <input type="text" id="player-name" placeholder="Tulis nama kamu..." maxlength="20" />
+        <div>
+          <button class="start-btn" id="start-game-btn">🚀 Mulai Bermain</button>
+          <button class="leaderboard-btn" id="view-leaderboard-btn">🏆 Lihat Leaderboard</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Game Area -->
     <main id="game-area">
-      <div class="progress">Level <span id="current">1</span>/5</div>
+      <div class="game-header">
+        <div class="player-info">
+          <span>👤</span>
+          <span id="current-player">Player</span>
+        </div>
+        <div class="progress">Level <span id="current">1</span>/5</div>
+      </div>
 
       <div class="puzzle-box">
         <img src="https://via.placeholder.com/200?text=Loading..." 
@@ -36,18 +57,43 @@
     </main>
 
     <!-- End Screen -->
-    <div id="end-screen" style="display: none;">
+    <div id="end-screen">
       <div class="trophy">
         <div class="emoji">🏆</div>
         <h2>Kamu Hebat!</h2>
         <p>Skor: <strong id="score">0</strong>/5</p>
         <p id="feedback"></p>
-        <button id="restart-btn">🔁 Main Lagi</button>
+        <div class="button-group">
+          <button id="restart-btn">🔁 Main Lagi</button>
+          <button class="leaderboard-btn" id="view-leaderboard-end-btn">🏆 Lihat Leaderboard</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Leaderboard Screen -->
+    <div id="leaderboard-screen">
+      <div class="leaderboard-container">
+        <div class="leaderboard-title">
+          <span>🏆</span>
+          <span>Papan Skor Terbaik</span>
+          <span>⭐</span>
+        </div>
+        
+        <div id="leaderboard-content">
+          <div class="empty-leaderboard">
+            <p>📝 Belum ada yang main nih...</p>
+            <p>Jadilah yang pertama!</p>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button class="back-btn" id="back-to-welcome-btn">🏠 Kembali</button>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Audio (opsional) - URL tanpa spasi -->
+  <!-- Audio (opsional) -->
   <audio id="sound-correct" src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" preload="auto"></audio>
   <audio id="sound-wrong" src="https://www.soundjay.com/buttons/sounds/button-14.mp3" preload="auto"></audio>
 

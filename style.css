@@ -32,7 +32,7 @@ header {
   background: linear-gradient(to right, #4caf50, #8bc34a);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  /* Tidak ada teks tambahan! */
+  background-clip: text;
 }
 
 header p {
@@ -41,17 +41,106 @@ header p {
   font-size: 1.1rem;
 }
 
-/* Progress */
-.progress {
+/* Welcome Screen */
+#welcome-screen {
   text-align: center;
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.8s ease;
+}
+
+.welcome-emoji {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  animation: bounce 2s infinite;
+}
+
+.name-input-area {
+  margin: 30px 0;
+}
+
+#player-name {
+  width: 80%;
+  max-width: 300px;
+  padding: 16px;
+  border: 3px solid #8bc34a;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  text-align: center;
+  outline: none;
+  background: #f1f8e9;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+}
+
+#player-name:focus {
+  border-color: #689f38;
+  background: white;
+  box-shadow: 0 0 15px rgba(139, 195, 74, 0.3);
+}
+
+.start-btn, .leaderboard-btn {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 16px 40px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+  margin: 10px;
+}
+
+.start-btn:hover, .leaderboard-btn:hover {
+  background: #388e3c;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5);
+}
+
+.leaderboard-btn {
+  background: #ff9800;
+  box-shadow: 0 4px 15px rgba(255, 152, 0, 0.4);
+}
+
+.leaderboard-btn:hover {
+  background: #f57c00;
+  box-shadow: 0 6px 20px rgba(255, 152, 0, 0.5);
+}
+
+/* Game Area */
+#game-area {
+  display: none;
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 25px;
+}
+
+.player-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  color: #2e7d32;
+}
+
+.progress {
   font-size: 1.2rem;
   font-weight: 600;
   color: #33691e;
-  margin-bottom: 20px;
-  animation: slideIn 0.6s ease;
 }
 
-/* Puzzle Box */
 .puzzle-box {
   background: white;
   padding: 30px;
@@ -84,7 +173,6 @@ header p {
   font-style: italic;
 }
 
-/* Input Area */
 .input-area {
   display: flex;
   flex-direction: column;
@@ -166,6 +254,7 @@ header p {
 
 /* End Screen */
 #end-screen {
+  display: none;
   text-align: center;
   padding: 40px 20px;
   animation: fadeIn 1s ease;
@@ -192,7 +281,119 @@ header p {
   line-height: 1.5;
 }
 
-#restart-btn {
+/* Leaderboard */
+#leaderboard-screen {
+  display: none;
+  animation: fadeIn 0.8s ease;
+}
+
+.leaderboard-container {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.leaderboard-title {
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #2e7d32;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.leaderboard-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.leaderboard-item {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  margin: 10px 0;
+  border-radius: 15px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.leaderboard-item:nth-child(1) {
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  transform: scale(1.02);
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+}
+
+.leaderboard-item:nth-child(2) {
+  background: linear-gradient(135deg, #c0c0c0, #e8e8e8);
+  box-shadow: 0 6px 20px rgba(192, 192, 192, 0.4);
+}
+
+.leaderboard-item:nth-child(3) {
+  background: linear-gradient(135deg, #cd7f32, #deb887);
+  box-shadow: 0 6px 20px rgba(205, 127, 50, 0.4);
+}
+
+.leaderboard-item:nth-child(n+4) {
+  background: linear-gradient(135deg, #e8f5e8, #f1f8e9);
+  border: 2px solid #c8e6c9;
+}
+
+.leaderboard-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.rank {
+  font-size: 1.8rem;
+  font-weight: 700;
+  width: 50px;
+  text-align: center;
+}
+
+.rank-medal {
+  font-size: 2.2rem;
+}
+
+.player-details {
+  flex: 1;
+  margin-left: 20px;
+}
+
+.player-name {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #2e7d32;
+}
+
+.player-score {
+  font-size: 1.1rem;
+  color: #558b2f;
+  margin-top: 5px;
+}
+
+.score-badge {
+  background: #4caf50;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+}
+
+.empty-leaderboard {
+  text-align: center;
+  padding: 40px;
+  color: #757575;
+  font-style: italic;
+}
+
+.back-btn, #restart-btn {
   background: #4caf50;
   color: white;
   border: none;
@@ -202,11 +403,17 @@ header p {
   cursor: pointer;
   transition: 0.3s ease;
   font-weight: 600;
+  margin: 10px;
 }
 
-#restart-btn:hover {
+.back-btn:hover, #restart-btn:hover {
   background: #388e3c;
   transform: scale(1.05);
+}
+
+.button-group {
+  text-align: center;
+  margin-top: 30px;
 }
 
 /* Animations */
@@ -230,10 +437,59 @@ header p {
   100% { transform: translateY(-10px); }
 }
 
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-20px); }
+  60% { transform: translateY(-10px); }
+}
+
 /* Responsive */
 @media (max-width: 480px) {
-  .puzzle-image { width: 160px; height: 160px; }
-  #answer-input { width: 90%; }
-  .logo { font-size: 2rem; }
-  .clue { font-size: 1.1rem; }
+  .puzzle-image { 
+    width: 160px; 
+    height: 160px; 
+  }
+  
+  #answer-input, #player-name { 
+    width: 90%; 
+  }
+  
+  .logo { 
+    font-size: 2rem; 
+  }
+  
+  .clue { 
+    font-size: 1.1rem; 
+  }
+  
+  .leaderboard-title { 
+    font-size: 1.8rem; 
+  }
+  
+  .player-name { 
+    font-size: 1.1rem; 
+  }
+  
+  .game-header { 
+    flex-direction: column; 
+    gap: 15px; 
+  }
+  
+  .start-btn, .leaderboard-btn {
+    padding: 12px 30px;
+    font-size: 1rem;
+  }
+  
+  .leaderboard-item {
+    padding: 12px 15px;
+  }
+  
+  .rank-medal {
+    font-size: 1.8rem;
+  }
+  
+  .score-badge {
+    padding: 6px 12px;
+    font-size: 1rem;
+  }
 }
