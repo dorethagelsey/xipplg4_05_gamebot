@@ -45,16 +45,67 @@ document.addEventListener("DOMContentLoaded", function () {
       clue: "💻 Alat elektronik untuk bekerja dan main game"
     },
     {
-      image: "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=200&h=200&fit=crop&crop=center",
+      image: "buku.jpg",
       answers: ["buku", "book"],
       clue: "📚 Kumpulan halaman berisi tulisan untuk dibaca"
     },
     {
-      image: "https://images.unsplash.com/photo-1504707748692-419802cf939d?w=200&h=200&fit=crop&crop=center",
-      answers: ["bunga", "flower", "mawar", "rose"],
-      clue: "🌹 Tanaman cantik yang harum dan berwarna-warni"
+      image: "alok.jpg.jpg",
+      answers: ["alok", ],
+      clue: "karakter Free Fire"
+    },
+  {
+      image: "delima.jpg.jpg",
+      answers: ["delima", ],
+      clue: "Inisial D"
+  },
+  {
+      image: "gitar.jpg.jpg",
+      answers: ["gitar", ],
+      clue: "Alat Musik yang di petik"
+    },
+    {
+      image: "jam.jpg.jpeg",
+      answers: ["jam", ],
+      clue: "Aku adalah mesin waktu"
+    },
+    {
+      image: "lampu.jpg.jpeg",
+      answers: ["lampu", ],
+      clue: "Jika tidak aku maka akan gelap"
+    },
+    {
+      image: "monas.jpg.jpg",
+      answers: ["monas", ],
+      clue: "Aku berada di Ibu Kota"
+    },
+    {
+      image: "perahu.jpg.jpg",
+      answers: ["perahu,kapal", ],
+      clue: "Alat transportasi laut"
+    },
+    {
+      image: "pesawat.jpg.jpg",
+      answers: ["pesawat", ],
+      clue: "Transportasi Udara"
+    },
+    {
+      image: "sapi.jpg.jpg",
+      answers: ["sapi", ],
+      clue: "Aku berkaki 4"
+    },
+    {
+      image: "tikus.jpg.jpg",
+      answers: ["tikus", ],
+      clue: "Aku sering diibaratkan dengan seseorang yang korupsi"
     }
+  
+  
+  
+  
+  
   ];
+
 
   // Variabel game
   let currentQ = 0;
