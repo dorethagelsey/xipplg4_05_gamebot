@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
     {
       image: "lampu.jpg.jpeg",
       answers: ["lampu", ],
-      clue: "Jika tidak aku maka akan gelap"
+      clue: "Jika tidak ada aku maka akan gelap"
     },
     {
       image: "monas.jpg.jpg",
@@ -98,10 +98,66 @@ document.addEventListener("DOMContentLoaded", function () {
       image: "tikus.jpg.jpg",
       answers: ["tikus", ],
       clue: "Aku sering diibaratkan dengan seseorang yang korupsi"
-    }
+    },
+  {
+      image: "apel.jpg",
+      answers: ["apel", ],
+      clue: "Buah Buahan"
+    },
+    {
+      image: "dior.jpg",
+      answers: ["dior,make up", ],
+      clue: "Salah satu brand make up"
+    },
+    {
+      image: "jupiter.jpg",
+      answers: ["jupiter", ],
+      clue: "Salah satu planet"
+    },
+    {
+      image: "kudanil.jpg",
+      answers: ["kudanil", ],
+      clue: "Aku suka makan"
+    },
+    {
+      image: "matahari.jpg",
+      answers: ["matahari , surya", ],
+      clue: "Aku tata surya terbesar"
+    },
+    {
+      image: "singa.jpg",
+      answers: ["singa", ],
+      clue: "Aku raja hutan"
+    },
   
   
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
   
   ];
@@ -112,7 +168,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let score = 0;
   let currentPlayer = "";
   let gameStartTime = 0;
-  let gameEndTime = 0;
+  let gameEndTime = 10;
 
   // Leaderboard data (disimpan di memory)
   let leaderboard = [];
