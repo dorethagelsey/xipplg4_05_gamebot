@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const soundCorrect = document.getElementById("sound-correct");
   const soundWrong = document.getElementById("sound-wrong");
 
-  // Data permainan
+  // Data permainan - 14 soal
   const questions = [
     {
       image: "https://images.unsplash.com/photo-1551717743-49959800b1f6?w=200&h=200&fit=crop&crop=center",
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     {
       image: "lampu.jpg.jpeg",
-      answers: ["lampu", ],
+      answers: ["lampu"],
       clue: "Jika tidak aku maka akan gelap"
     },
     {
@@ -100,11 +100,6 @@ document.addEventListener("DOMContentLoaded", function () {
       answers: ["tikus"],
       clue: "Aku sering diibaratkan dengan seseorang yang korupsi"
     }
-  
-  
-  
-  
-  
   ];
 
   // Variabel game
@@ -113,6 +108,8 @@ document.addEventListener("DOMContentLoaded", function () {
   let currentPlayer = "";
   let gameStartTime = 0;
   let gameEndTime = 0;
+  let timer;           // Untuk menyimpan interval timer
+  let timeLeft = 10;   // Waktu per soal: 10 detik
 
   // Leaderboard data
   let leaderboard = [];
@@ -154,7 +151,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Navigasi screen
   function showWelcome() {
-    clearInterval(timer); // Hentikan timer jika ada
+    clearInterval(timer);
     showScreen("welcome");
     playerNameInput.focus();
   }
@@ -181,11 +178,15 @@ document.addEventListener("DOMContentLoaded", function () {
     answerInput.focus();
     currentEl.textContent = currentQ + 1;
     hideNotification();
-    
-    // Reset dan mulai timer
+
+    // Reset timer
     timeLeft = 10;
     updateTimerDisplay();
+
+    // Hentikan timer sebelumnya
     clearInterval(timer);
+
+    // Mulai timer baru
     timer = setInterval(() => {
       timeLeft--;
       updateTimerDisplay();
@@ -193,7 +194,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (timeLeft <= 0) {
         clearInterval(timer);
         showNotification("⏰ Waktu habis!", "error");
-        setTimeout(nextQuestion, 1500);
+        setTimeout(nextQuestion, 1500); // Lanjut ke soal berikutnya
       }
     }, 1000);
   }
@@ -209,7 +210,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Notifikasi
+  // Fungsi notifikasi
   function showNotification(message, type) {
     notification.textContent = message;
     notification.className = "notification";
