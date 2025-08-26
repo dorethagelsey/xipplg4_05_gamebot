@@ -99,7 +99,32 @@ document.addEventListener("DOMContentLoaded", function () {
       image: "tikus.jpg.jpg",
       answers: ["tikus"],
       clue: "Aku sering diibaratkan dengan seseorang yang korupsi"
-    }
+    },
+    {
+      image: "https://www.google.com/imgres?q=monyet&imgurl=https%3A%2F%2Fwww.itb.ac.id%2Ffiles%2Fdokumentasi%2F1709884585-Macaca-fascicularis_.jpg&imgrefurl=https%3A%2F%2Fitb.ac.id%2Fberita%2Fkemunculan-monyet-ekor-panjang-di-kota-bandung-tanda-habitatnya-rusak%2F60422&docid=azq8l5IMiVbN9M&tbnid=e2ZSJ0DPypaiGM&vet=12ahUKEwjyhOP7tKePAxUaxDgGHQyTMMgQM3oECBEQAA..i&w=700&h=466&hcb=2&ved=2ahUKEwjyhOP7tKePAxUaxDgGHQyTMMgQM3oECBEQAA",
+      answers: ["monyet"],
+      clue: "Suka melompat di hutan"
+    },
+    {
+      image: "https://www.google.com/imgres?q=panda&imgurl=https%3A%2F%2Fmedia.istockphoto.com%2Fid%2F523761634%2Fid%2Ffoto%2Flucu-beruang-panda-memanjat-di-pohon.jpg%3Fs%3D612x612%26w%3D0%26k%3D20%26c%3Dtg0izGKZALoV4Cfv47N2-rqCzVQCEL0hk5_3C3JNtgA%3D&imgrefurl=https%3A%2F%2Fwww.istockphoto.com%2Fid%2Ffoto-foto%2Fpanda&docid=-NbKAnqntXv8CM&tbnid=l0n4DI05VUm2NM&vet=12ahUKEwisyM6p3KePAxUAUWwGHTdMJDQQM3oECBoQAA..i&w=612&h=612&hcb=2&ved=2ahUKEwisyM6p3KePAxUAUWwGHTdMJDQQM3oECBoQAA",
+      answers: ["panda"],
+      clue: "Hewan dari Tiongkok, suka bambu"
+    },
+    {
+      image: "https://www.google.com/imgres?q=sepatu&imgurl=https%3A%2F%2Fimg.lazcdn.com%2Fg%2Fp%2F510e478898cf2016e513f027abf258ff.jpg_720x720q80.jpg&imgrefurl=https%3A%2F%2Fwww.lazada.co.id%2Fproducts%2Fsepatu-sneakers-triumph-sepatu-kets-kulit-sepatu-casual-pria-kasual-sepatu-pria-tali-pakalolo-i5643186873.html&docid=PE-O4r9_yy7H_M&tbnid=hd1zt_0RObQzzM&vet=12ahUKEwink-3g3KePAxUzSmwGHYuZL6AQM3oECD8QAA..i&w=720&h=720&hcb=2&ved=2ahUKEwink-3g3KePAxUzSmwGHYuZL6AQM3oECD8QAA",
+      answers: ["sepatu"],
+      clue: "Dipakai di kaki, untuk berjalan"
+    },
+    {
+      image: "https://www.google.com/imgres?q=kunci&imgurl=https%3A%2F%2Fkenaridjaja.co.id%2Fuploadeditor%2Fkenaridjaja.co.id%2Fimages%2Fkunci-silinder-cylinder-KEND-08610-18%2540.jpg&imgrefurl=https%3A%2F%2Fkenaridjaja.co.id%2Finspirasi%2Ftips-dan-trick%2Fketahui-apa-saja-model-tiap-tipe-kunci-cylinder-untuk-pintunya%2F8126&docid=NeOM7JUJqp-HmM&tbnid=I8ns_7_x3Q-syM&vet=12ahUKEwjn_piJ3aePAxVU3TgGHajXNokQM3oECBsQAA..i&w=1200&h=1200&hcb=2&ved=2ahUKEwjn_piJ3aePAxVU3TgGHajXNokQM3oECBsQAA",
+      answers: ["kunci"],
+      clue: "Kecil, tapi bisa membuka pintu"
+    },
+    {
+      image: "https://www.google.com/imgres?q=payung&imgurl=https%3A%2F%2Fcdn.ruparupa.io%2Ffit-in%2F400x400%2Ffilters%3Aformat(webp)%2Ffilters%3Aquality(90)%2Fruparupa-com%2Fimage%2Fupload%2FProducts%2F10518508_1.jpg&imgrefurl=https%3A%2F%2Fwww.ruparupa.com%2Fp%2Fataru-payung-lipat-otomatis-hitam.html&docid=XcLZRaQVaOpJeM&tbnid=GRwAlGg1MB9AoM&vet=12ahUKEwj6_tW93aePAxUV7TgGHU9pIHsQM3oECEwQAA..i&w=400&h=400&hcb=2&ved=2ahUKEwj6_tW93aePAxUV7TgGHU9pIHsQM3oECEwQAA",
+      answers: ["payung"],
+      clue: "Melindungi dari hujan dan panas"
+    },
   ];
 
   // Variabel game
