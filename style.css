@@ -116,29 +116,6 @@ header p {
   display: none;
 }
 
-.timer-display {
-  font-size: 1.4em;
-  font-weight: bold;
-  color: #2c3e50;
-  text-align: center;
-  margin: 10px 0;
-  background: #f8f9fa;
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.timer-display.warning {
-  color: #e74c3c;
-  animation: pulse 1s infinite;
-}
-
-@keyframes pulse {
-  0% { opacity: 1; }
-  50% { opacity: 0.7; }
-  100% { opacity: 1; }
-}
-
 .game-header {
   display: flex;
   justify-content: space-between;
