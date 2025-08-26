@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     {
       image: "lampu.jpg.jpeg",
-      answers: ["lampu"],
+      answers: ["lampu", ],
       clue: "Jika tidak aku maka akan gelap"
     },
     {
@@ -100,6 +100,11 @@ document.addEventListener("DOMContentLoaded", function () {
       answers: ["tikus"],
       clue: "Aku sering diibaratkan dengan seseorang yang korupsi"
     }
+  
+  
+  
+  
+  
   ];
 
   // Variabel game
@@ -108,8 +113,6 @@ document.addEventListener("DOMContentLoaded", function () {
   let currentPlayer = "";
   let gameStartTime = 0;
   let gameEndTime = 0;
-  let timer;           // Untuk menyimpan interval timer
-  let timeLeft = 10;   // Waktu per soal (detik)
 
   // Leaderboard data
   let leaderboard = [];
