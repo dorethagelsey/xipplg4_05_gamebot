@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const currentPlayerEl = document.getElementById("current-player");
   const imageEl = document.getElementById("image");
   const clueEl = document.getElementById("clue");
-  const answerInput = document.getElementById("answer-input");
+  const answerInput = document.getElementById("answer-input")
   const checkBtn = document.getElementById("check-btn");
   const notification = document.getElementById("notification");
   const currentEl = document.getElementById("current");
@@ -121,24 +121,33 @@ fetch("questions.json")
     currentEl.textContent = currentQ + 1;
     hideNotification();
 
-    // Reset timer
-    timeLeft = 10;
-    updateTimerDisplay();
+    let timeLeft = 10;
+let timerInterval;
 
-    // Hentikan timer sebelumnya
-    clearInterval(timer);
+// Fungsi mulai timer
+function startTimer() {
+  timeLeft = 10;
+  document.getElementById("time-left").textContent = timeLeft;
 
-    // Mulai timer baru
-    timer = setInterval(() => {
-      timeLeft--;
-      updateTimerDisplay();
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    document.getElementById("time-left").textContent = timeLeft;
 
-      if (timeLeft <= 0) {
-        clearInterval(timer);
-        showNotification("⏰ Waktu habis!", "error");
-        setTimeout(nextQuestion, 1500); // Lanjut ke soal berikutnya
-      }
-    }, 1000);
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      goToNextStage(); // langsung ke stage berikutnya
+    }
+  }, 1000);
+}
+
+// Contoh fungsi pindah stage
+function goToNextStage() {
+  // logika ganti soal di sini
+  console.log("Waktu habis, pindah ke stage berikutnya!");
+  // setelah pindah soal, timer dimulai ulang
+  startTimer();
+}
   }
 
   // Update tampilan timer
@@ -220,7 +229,7 @@ fetch("questions.json")
 
     addToLeaderboard(currentPlayer, score, timeSpent);
 
-    if (score === 14) {
+    if (score === 20) {
       feedbackEl.textContent = "🧠 Luar biasa! Skor sempurna! 🎯";
     } else if (score >= 10) {
       feedbackEl.textContent = "👏 Hampir sempurna! Kamu jenius!";
