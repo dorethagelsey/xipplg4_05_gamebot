@@ -1,108 +1,66 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Selektor elemen
+  // Elemen
   const welcomeScreen = document.getElementById("welcome-screen");
   const gameArea = document.getElementById("game-area");
   const endScreen = document.getElementById("end-screen");
   const leaderboardScreen = document.getElementById("leaderboard-screen");
-  
+
   const playerNameInput = document.getElementById("player-name");
   const startGameBtn = document.getElementById("start-game-btn");
   const viewLeaderboardBtn = document.getElementById("view-leaderboard-btn");
   const viewLeaderboardEndBtn = document.getElementById("view-leaderboard-end-btn");
   const backToWelcomeBtn = document.getElementById("back-to-welcome-btn");
-  
+  const restartBtn = document.getElementById("restart-btn");
+
   const currentPlayerEl = document.getElementById("current-player");
   const imageEl = document.getElementById("image");
   const clueEl = document.getElementById("clue");
-  const answerInput = document.getElementById("answer-input")
+  const answerInput = document.getElementById("answer-input");
   const checkBtn = document.getElementById("check-btn");
   const notification = document.getElementById("notification");
   const currentEl = document.getElementById("current");
+  const totalEl = document.getElementById("total");
   const scoreEl = document.getElementById("score");
   const feedbackEl = document.getElementById("feedback");
-  const restartBtn = document.getElementById("restart-btn");
   const leaderboardContent = document.getElementById("leaderboard-content");
-  const timerEl = document.getElementById("timer"); // Elemen timer
+  const timerEl = document.getElementById("timer");
 
-  // Suara (opsional)
   const soundCorrect = document.getElementById("sound-correct");
   const soundWrong = document.getElementById("sound-wrong");
 
-  // Data permainan - 14 soal
-let questions = [];
-let leaderboard = [];
-
-fetch("questions.json")
-  .then(res => res.json())
-  .then(data => {
-    questions = data.questions;
-    leaderboard = data.leaderboard || [];
-    showWelcome();
-  })
-  .catch(err => {
-    console.error("Gagal load data.json:", err);
-    showWelcome();
-  });
-
-
   // Variabel game
+  let questions = [];
+  let leaderboard = [];
   let currentQ = 0;
   let score = 0;
   let currentPlayer = "";
+  let timerInterval;
+  let timeLeft = 10;
   let gameStartTime = 0;
-  let gameEndTime = 0;
-  let timer;           // Untuk menyimpan interval timer
-  let timeLeft = 10;   // Waktu per soal: 10 detik
 
-  // Leaderboard data
+  // Load JSON
+  fetch("questions.json")
+    .then(res => res.json())
+    .then(data => {
+      questions = data.questions;
+      leaderboard = data.leaderboard || [];
+      totalEl.textContent = questions.length;
+      showWelcome();
+    });
 
-  // Event listeners
+  // Event
   startGameBtn.addEventListener("click", startGame);
   viewLeaderboardBtn.addEventListener("click", showLeaderboard);
   viewLeaderboardEndBtn.addEventListener("click", showLeaderboard);
   backToWelcomeBtn.addEventListener("click", showWelcome);
   restartBtn.addEventListener("click", restartGame);
   checkBtn.addEventListener("click", checkAnswer);
-  
-  answerInput.addEventListener("keypress", (e) => {
+
+  answerInput.addEventListener("keypress", e => {
     if (e.key === "Enter") checkAnswer();
   });
 
-  playerNameInput.addEventListener("keypress", (e) => {
-    if (e.key === "Enter" && playerNameInput.value.trim()) startGame();
-  });
-
-  // Fungsi untuk memulai game
-  function startGame() {
-    const name = playerNameInput.value.trim();
-    if (!name) {
-      alert("😊 Masukkan nama kamu dulu ya!");
-      playerNameInput.focus();
-      return;
-    }
-    
-    currentPlayer = name;
-    currentPlayerEl.textContent = currentPlayer;
-    currentQ = 0;
-    score = 0;
-    gameStartTime = Date.now();
-    
-    showScreen("game");
-    loadQuestion();
-  }
-
-  // Navigasi screen
-  function showWelcome() {
-    clearInterval(timer);
-    showScreen("welcome");
-    playerNameInput.focus();
-  }
-
-  function showLeaderboard() {
-    showScreen("leaderboard");
-    displayLeaderboard();
-  }
-
+  // Fungsi screen
   function showScreen(screen) {
     welcomeScreen.style.display = screen === "welcome" ? "block" : "none";
     gameArea.style.display = screen === "game" ? "block" : "none";
@@ -110,106 +68,97 @@ fetch("questions.json")
     leaderboardScreen.style.display = screen === "leaderboard" ? "block" : "none";
   }
 
-  // Fungsi untuk load pertanyaan + mulai timer
+  function showWelcome() {
+    clearInterval(timerInterval);
+    showScreen("welcome");
+  }
+
+  function showLeaderboard() {
+    showScreen("leaderboard");
+    displayLeaderboard();
+  }
+
+  // Mulai game
+  function startGame() {
+    const name = playerNameInput.value.trim();
+    if (!name) {
+      alert("Masukkan nama dulu!");
+      return;
+    }
+    currentPlayer = name;
+    currentPlayerEl.textContent = name;
+    currentQ = 0;
+    score = 0;
+    gameStartTime = Date.now();
+    showScreen("game");
+    loadQuestion();
+  }
+
+  // Load soal
   function loadQuestion() {
+    if (currentQ >= questions.length) {
+      return endGame();
+    }
+
     const q = questions[currentQ];
     imageEl.src = q.image;
-    imageEl.alt = `Teka-teki gambar ${currentQ + 1}`;
     clueEl.textContent = q.clue;
     answerInput.value = "";
     answerInput.focus();
     currentEl.textContent = currentQ + 1;
-    hideNotification();
 
-    let timeLeft = 10;
-let timerInterval;
-
-// Fungsi mulai timer
-function startTimer() {
-  timeLeft = 10;
-  document.getElementById("time-left").textContent = timeLeft;
-
-  clearInterval(timerInterval);
-  timerInterval = setInterval(() => {
-    timeLeft--;
-    document.getElementById("time-left").textContent = timeLeft;
-
-    if (timeLeft <= 0) {
-      clearInterval(timerInterval);
-      goToNextStage(); // langsung ke stage berikutnya
-    }
-  }, 1000);
-}
-
-// Contoh fungsi pindah stage
-function goToNextStage() {
-  // logika ganti soal di sini
-  console.log("Waktu habis, pindah ke stage berikutnya!");
-  // setelah pindah soal, timer dimulai ulang
-  startTimer();
-}
+    startTimer();
   }
 
-  // Update tampilan timer
-  function updateTimerDisplay() {
-    if (timerEl) {
-      timerEl.textContent = `⏱️ ${timeLeft}s`;
-      timerEl.className = "timer-display";
-      if (timeLeft <= 3) {
-        timerEl.classList.add("warning");
+  // Timer
+  function startTimer() {
+    clearInterval(timerInterval);
+    timeLeft = 10;
+    updateTimer();
+
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      updateTimer();
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        // kalau habis waktu, dianggap salah
+        showNotification("⏰ Waktu habis! -1 poin", "error");
+        score = Math.max(0, score - 1);
+        soundWrong.play(); // ✅ bunyi salah saat waktu habis
+        setTimeout(nextQuestion, 1000);
       }
-    }
+    }, 1000);
   }
 
-  // Fungsi notifikasi
-  function showNotification(message, type) {
-    notification.textContent = message;
-    notification.className = "notification";
-    notification.classList.add(type, "show");
-
-    try {
-      if (type === "success" && soundCorrect) {
-        soundCorrect.play().catch(e => console.warn("Gagal mainkan suara benar:", e));
-      } else if (type === "error" && soundWrong) {
-        soundWrong.play().catch(e => console.warn("Gagal mainkan suara salah:", e));
-      }
-    } catch (e) {
-      console.warn("Error playing sound:", e);
-    }
-
-    setTimeout(hideNotification, 2000);
-  }
-
-  function hideNotification() {
-    notification.classList.remove("show");
+  function updateTimer() {
+    timerEl.textContent = `⏱️ ${timeLeft}s`;
+    timerEl.className = "timer-display";
+    if (timeLeft <= 3) timerEl.classList.add("warning");
   }
 
   // Cek jawaban
   function checkAnswer() {
     const userAnswer = answerInput.value.trim().toLowerCase();
-    if (!userAnswer) {
-      showNotification("💡 Masukkan jawaban dulu!", "error");
-      return;
-    }
+    if (!userAnswer) return;
 
-    const correctAnswers = questions[currentQ].answers.map(ans => ans.toLowerCase());
-    const isCorrect = correctAnswers.some(
-      ans => userAnswer.includes(ans) || ans.includes(userAnswer)
-    );
-
-    if (isCorrect) {
-      showNotification("✅ Benar! Hebat! 👏", "success");
+    const correctAnswers = questions[currentQ].answers.map(a => a.toLowerCase());
+    if (correctAnswers.includes(userAnswer)) {
+      showNotification("✅ Benar!", "success");
       score++;
-      clearInterval(timer); // Hentikan timer
-      setTimeout(nextQuestion, 1800);
+      soundCorrect.play();
+      clearInterval(timerInterval);
+      setTimeout(nextQuestion, 1000);
     } else {
-      showNotification("❌ Belum tepat, coba lagi!", "error");
+      showNotification("❌ Salah! -1 poin", "error");
+      score = Math.max(0, score - 1);
+      soundWrong.play();
+      clearInterval(timerInterval);
+      setTimeout(nextQuestion, 1000);
     }
   }
 
-  // Lanjut ke soal berikutnya
+  // Next soal
   function nextQuestion() {
-    clearInterval(timer);
     currentQ++;
     if (currentQ >= questions.length) {
       endGame();
@@ -218,90 +167,62 @@ function goToNextStage() {
     }
   }
 
-  // Akhiri game
+  // End game
   function endGame() {
-    clearInterval(timer);
-    gameEndTime = Date.now();
-    const timeSpent = Math.round((gameEndTime - gameStartTime) / 1000);
-    
+    clearInterval(timerInterval);
     showScreen("end");
     scoreEl.textContent = score;
 
+    const timeSpent = Math.round((Date.now() - gameStartTime) / 1000);
     addToLeaderboard(currentPlayer, score, timeSpent);
 
-    if (score === 20) {
-      feedbackEl.textContent = "🧠 Luar biasa! Skor sempurna! 🎯";
-    } else if (score >= 10) {
-      feedbackEl.textContent = "👏 Hampir sempurna! Kamu jenius!";
-    } else if (score >= 5) {
-      feedbackEl.textContent = "💡 Bagus! Tapi masih bisa lebih!";
+    if (score === questions.length) {
+      feedbackEl.textContent = "🎯 Sempurna!";
+    } else if (score >= questions.length / 2) {
+      feedbackEl.textContent = "👍 Bagus!";
     } else {
-      feedbackEl.textContent = "😅 Jangan menyerah! Coba lagi, pasti bisa!";
+      feedbackEl.textContent = "😅 Jangan menyerah, coba lagi!";
     }
   }
 
-  // Restart game
   function restartGame() {
-    currentQ = 0;
-    score = 0;
-    gameStartTime = Date.now();
-    showScreen("game");
-    loadQuestion();
+    startGame();
   }
 
-  // Tambah ke leaderboard
-  function addToLeaderboard(name, score, timeSpent) {
-    const newEntry = {
-      name,
-      score,
-      time: timeSpent,
-      date: new Date().toLocaleDateString('id-ID'),
-      timestamp: Date.now()
-    };
-
-    leaderboard.push(newEntry);
-    leaderboard.sort((a, b) => {
-      if (b.score !== a.score) return b.score - a.score;
-      return a.time - b.time;
-    });
+  // Leaderboard
+  function addToLeaderboard(name, score, time) {
+    leaderboard.push({ name, score, time });
+    leaderboard.sort((a, b) => b.score - a.score || a.time - b.time);
     leaderboard = leaderboard.slice(0, 10);
   }
 
-  // Tampilkan leaderboard
   function displayLeaderboard() {
     if (leaderboard.length === 0) {
       leaderboardContent.innerHTML = `
         <div class="empty-leaderboard">
-          <p>📝 Belum ada yang main nih...</p>
-          <p>Jadilah yang pertama!</p>
+          <p>📝 Belum ada yang main</p>
         </div>
       `;
       return;
     }
 
-    const leaderboardHTML = leaderboard.map((entry, index) => {
-      const medal = ['🥇', '🥈', '🥉'][index];
-      const rankDisplay = index < 3 
-        ? `<span class="rank-medal">${medal}</span>` 
-        : `<span class="rank">${index + 1}</span>`;
-      
-      return `
-        <div class="leaderboard-item">
-          ${rankDisplay}
-          <div class="player-details">
-            <div class="player-name">${entry.name}</div>
-            <div class="player-score">
-              ${entry.date} • ${entry.time}s • ${entry.score}/14
-            </div>
-          </div>
-          <div class="score-badge">${entry.score}/14</div>
+    leaderboardContent.innerHTML = leaderboard.map((e, i) => `
+      <div class="leaderboard-item">
+        <span class="rank">${i + 1}</span>
+        <div class="player-details">
+          <div class="player-name">${e.name}</div>
+          <div class="player-score">${e.score} poin • ${e.time}s</div>
         </div>
-      `;
-    }).join('');
-
-    leaderboardContent.innerHTML = `<div class="leaderboard-list">${leaderboardHTML}</div>`;
+      </div>
+    `).join("");
   }
 
-  // Inisialisasi
+  // Notifikasi
+  function showNotification(msg, type) {
+    notification.textContent = msg;
+    notification.className = "notification " + type + " show";
+    setTimeout(() => notification.classList.remove("show"), 2000);
+  }
+
   showWelcome();
 });
