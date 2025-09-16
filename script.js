@@ -27,6 +27,39 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const soundCorrect = document.getElementById("sound-correct");
   const soundWrong = document.getElementById("sound-wrong");
+  const hintBtn = document.getElementById("hint-btn");
+
+  hintBtn.addEventListener("click", () => {
+    if (hintUsed) {
+      showNotification("📢 Kamu sudah pakai hint!", "error");
+      return;
+    }
+
+    const q = questions[currentQ];
+    const answer = q.answers[0].toLowerCase(); // Ambil jawaban pertama sebagai acuan
+
+    // Pilih jenis hint secara acak atau tentukan sendiri
+    let hintMessage = "";
+
+    // Contoh variasi hint
+    const hintType = Math.floor(Math.random() * 3);
+
+    if (hintType === 0) {
+      hintMessage = `Jawabannya punya ${answer.length} huruf.`;
+    } else if (hintType === 1) {
+      hintMessage = `Dimulai dengan huruf "${answer[0].toUpperCase()}"`;
+    } else {
+      hintMessage = `"${q.clue}" — coba pikir lebih dalam! 😉`;
+    }
+
+    showNotification(hintMessage, "error");
+    hintUsed = true;
+
+    // Nonaktifkan tombol setelah digunakan
+    hintBtn.disabled = true;
+    hintBtn.style.opacity = "0.6";
+    hintBtn.style.cursor = "not-allowed";
+  });
 
   // Variabel game
   let allQuestions = []; // Semua pertanyaan dari JSON
@@ -38,6 +71,14 @@ document.addEventListener("DOMContentLoaded", function () {
   let timerInterval;
   let timeLeft = 10;
   let gameStartTime = 0;
+  let hintUsed = false; // Cek apakah hint sudah dipakai
+
+  const saved = localStorage.getItem("leaderboard");
+  if (saved) {
+    leaderboard = JSON.parse(saved);
+  } else {
+    leaderboard = [];
+  }
 
   // Konfigurasi: jumlah soal per permainan
   const QUESTIONS_PER_GAME = 5;
@@ -47,7 +88,21 @@ document.addEventListener("DOMContentLoaded", function () {
     .then(res => res.json())
     .then(data => {
       allQuestions = Array.isArray(data.questions) ? data.questions : [];
-      leaderboard = data.leaderboard || [];
+    if (leaderboard.length === 0) {
+      const jsonLeaderboard = data.leaderboard || [];
+      if (jsonLeaderboard.length > 0) {
+        leaderboard = jsonLeaderboard;
+      }
+    }
+
+    if (leaderboard.length === 0 && data.leaderboard && data.leaderboard.length > 0) {
+      leaderboard = [...leaderboard, ...data.leaderboard];
+      leaderboard.sort((a, b) => b.score - a.score || a.time - b.time);
+      leaderboard = leaderboard.slice(0, 10);
+
+      localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+    }
+
       // Jangan set totalEl di sini - nanti akan diset saat game dimulai
       showWelcome();
     })
@@ -135,6 +190,11 @@ document.addEventListener("DOMContentLoaded", function () {
     answerInput.focus();
     currentEl.textContent = currentQ + 1;
 
+    hintUsed = false;
+    hintBtn.disabled = false;
+    hintBtn.style.opacity = "1";
+    hintBtn.style.cursor = "pointer";
+
     startTimer();
   }
 
@@ -184,6 +244,8 @@ document.addEventListener("DOMContentLoaded", function () {
       clearInterval(timerInterval);
       setTimeout(nextQuestion, 800);
     }
+      imageEl.classList.add("shake");
+      setTimeout(() => imageEl.classList.remove("shake"), 500);
   }
 
   // Next soal
@@ -224,6 +286,8 @@ document.addEventListener("DOMContentLoaded", function () {
     leaderboard.push({ name, score, time });
     leaderboard.sort((a, b) => b.score - a.score || a.time - b.time);
     leaderboard = leaderboard.slice(0, 10);
+
+    localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
   }
 
   function displayLeaderboard() {

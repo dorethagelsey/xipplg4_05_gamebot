@@ -56,7 +56,10 @@
 
         <div class="input-area">
           <input type="text" id="answer-input" placeholder="Tulis jawabanmu..." />
-          <button id="check-btn">👉 Cek Jawaban</button>
+          <div class="button-row">
+            <button id="hint-btn">💡 Petunjuk</button>
+            <button id="check-btn">👉 Cek Jawaban</button>
+          </div>
         </div>
 
         <div class="notification" id="notification"></div>
@@ -108,6 +111,8 @@
   <audio id="sound-correct" src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" preload="auto"></audio>
   <audio id="sound-wrong" src="https://www.soundjay.com/buttons/sounds/button-14.mp3" preload="auto"></audio>
 
+
+  
   <script src="script.js"></script>
 </body>
 </html>

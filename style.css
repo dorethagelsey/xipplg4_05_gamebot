@@ -269,3 +269,34 @@ button {
   color: #777;
   padding: 20px 10px;
 }
+
+.button-row {
+  display: flex;
+  gap: 10px;
+}
+
+#hint-btn {
+  background: #ff9800;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  flex: 1;
+  transition: all 0.3s ease;
+}
+
+#hint-btn:hover {
+  background: #f57c00;
+  transform: translateY(-2px);
+}
+
+.shake {
+  animation: shake 0.5s ease-in-out;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
