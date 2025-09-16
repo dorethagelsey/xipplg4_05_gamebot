@@ -29,7 +29,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const soundWrong = document.getElementById("sound-wrong");
 
   // Variabel game
-  let questions = [];
+  let allQuestions = []; // Semua pertanyaan dari JSON
+  let questions = []; // Pertanyaan yang akan dimainkan (subset acak)
   let leaderboard = [];
   let currentQ = 0;
   let score = 0;
@@ -38,13 +39,21 @@ document.addEventListener("DOMContentLoaded", function () {
   let timeLeft = 10;
   let gameStartTime = 0;
 
+  // Konfigurasi: jumlah soal per permainan
+  const QUESTIONS_PER_GAME = 5;
+
   // Load JSON
   fetch("questions.json")
     .then(res => res.json())
     .then(data => {
-      questions = data.questions;
+      allQuestions = Array.isArray(data.questions) ? data.questions : [];
       leaderboard = data.leaderboard || [];
-      totalEl.textContent = questions.length;
+      // Jangan set totalEl di sini - nanti akan diset saat game dimulai
+      showWelcome();
+    })
+    .catch(err => {
+      console.error("Gagal load questions.json:", err);
+      allQuestions = [];
       showWelcome();
     });
 
@@ -71,11 +80,23 @@ document.addEventListener("DOMContentLoaded", function () {
   function showWelcome() {
     clearInterval(timerInterval);
     showScreen("welcome");
+    // Update total soal yang terlihat di UI (opsional)
+    totalEl.textContent = allQuestions.length || 0;
   }
 
   function showLeaderboard() {
     showScreen("leaderboard");
     displayLeaderboard();
+  }
+
+  // Fungsi untuk mengacak array (Fisher-Yates shuffle)
+  function shuffleArray(array) {
+    const a = array.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
   }
 
   // Mulai game
@@ -90,19 +111,26 @@ document.addEventListener("DOMContentLoaded", function () {
     currentQ = 0;
     score = 0;
     gameStartTime = Date.now();
+
+    // 🔀 Acak pertanyaan lalu ambil subset (QUESTIONS_PER_GAME)
+    questions = shuffleArray(allQuestions).slice(0, QUESTIONS_PER_GAME);
+
+    // Update total UI sesuai jumlah soal yang dipakai
+    totalEl.textContent = questions.length;
+
     showScreen("game");
     loadQuestion();
   }
 
   // Load soal
   function loadQuestion() {
-    if (currentQ >= questions.length) {
+    if (!questions || currentQ >= questions.length) {
       return endGame();
     }
 
     const q = questions[currentQ];
-    imageEl.src = q.image;
-    clueEl.textContent = q.clue;
+    imageEl.src = q.image || "https://via.placeholder.com/250?text=No+Image";
+    clueEl.textContent = q.clue || "";
     answerInput.value = "";
     answerInput.focus();
     currentEl.textContent = currentQ + 1;
@@ -124,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // kalau habis waktu, dianggap salah
         showNotification("⏰ Waktu habis! -1 poin", "error");
         score = Math.max(0, score - 1);
-        soundWrong.play(); // ✅ bunyi salah saat waktu habis
+        try { soundWrong.play(); } catch (e) {}
         setTimeout(nextQuestion, 1000);
       }
     }, 1000);
@@ -141,19 +169,20 @@ document.addEventListener("DOMContentLoaded", function () {
     const userAnswer = answerInput.value.trim().toLowerCase();
     if (!userAnswer) return;
 
-    const correctAnswers = questions[currentQ].answers.map(a => a.toLowerCase());
+    const q = questions[currentQ];
+    const correctAnswers = Array.isArray(q.answers) ? q.answers.map(a => a.toLowerCase()) : [];
     if (correctAnswers.includes(userAnswer)) {
       showNotification("✅ Benar!", "success");
       score++;
-      soundCorrect.play();
+      try { soundCorrect.play(); } catch (e) {}
       clearInterval(timerInterval);
-      setTimeout(nextQuestion, 1000);
+      setTimeout(nextQuestion, 800);
     } else {
       showNotification("❌ Salah! -1 poin", "error");
       score = Math.max(0, score - 1);
-      soundWrong.play();
+      try { soundWrong.play(); } catch (e) {}
       clearInterval(timerInterval);
-      setTimeout(nextQuestion, 1000);
+      setTimeout(nextQuestion, 800);
     }
   }
 
@@ -186,6 +215,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function restartGame() {
+    // Jika mau langsung main lagi tanpa ketik nama, pastikan input masih ada
     startGame();
   }
 
@@ -197,7 +227,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function displayLeaderboard() {
-    if (leaderboard.length === 0) {
+    if (!leaderboard || leaderboard.length === 0) {
       leaderboardContent.innerHTML = `
         <div class="empty-leaderboard">
           <p>📝 Belum ada yang main</p>
